@@ -51,6 +51,20 @@ describe("app", () => {
                         });
                 });
             });
+            describe("INVALID METHODS", () => {
+                it("status 405: for invalid methods DELETE, PATCH and PUT", () => {
+                    const invalidMethods = ["delete", "patch", "put"];
+
+                    const promises = invalidMethods.map((method) => {
+                        return request(app)[method]("/api/shoes")
+                            .expect(405)
+                            .then(({ body: { msg } }) => {
+                                expect(msg).toBe("Nah Pal, Method Not Allowed!");
+                            });
+                    });
+                    return Promise.all(promises);
+                });
+            });
         });
     });
 });

@@ -4,5 +4,8 @@ exports.getShoes = (req, res, next) => {
     fetchShoes()
         .then((shoes) => {
             res.status(200).send({ shoes })
-        });
+        })
+        .catch((err) => {
+            next(err);
+        })
 }
