@@ -1,11 +1,12 @@
-const knex = require("../db/connection")
+const connection = require("../db/connection")
 
-exports.fetchShoes = () => {
-    return knex
-        .select('*')
+exports.fetchShoes = (sentName) => {
+    return connection
+        .select('shoes.*')
         .from('shoes')
-        .then((shoesArr) => {
-            // console.log(shoesArr, "<=========== shoes ARRAY IN MODEL");
-            return shoesArr;
+        .modify(function(knex) {
+            if (sentName) {
+                knex.where('shoes.name', sentName)
+            }
         })
 }

@@ -50,6 +50,18 @@ describe("app", () => {
                             });
                         });
                 });
+                it("status 200: responds with an array of shoes matching the name of the shoe specified in the request query", () => {
+                    return request(app)
+                        .get("/api/shoes/?name=Bovver+Boot")
+                        .expect(200)
+                        .then(({ body: { shoes } }) => {
+                            expect(Array.isArray(shoes)).toBe(true);
+                            expect(shoes.length).toBe(1);
+                            shoes.forEach((shoe) => {
+                                expect(shoe.name).toBe('Bovver Boot');
+                            });
+                        });
+                });
             });
             describe("INVALID METHODS", () => {
                 it("status 405: for invalid methods DELETE, PATCH and PUT", () => {
