@@ -41,7 +41,7 @@ exports.fetchShoeById = (sentShoeId) => {
 };
 
 exports.updateShoe = (patchShoeId, reduceStockValue) => {
-    console.log(reduceStockValue);
+    // console.log(reduceStockValue);
     if (reduceStockValue === undefined) {
         return Promise.reject({ status: 400, msg: "No Can Do Pal, Bad Request. Fix Ya Body!" });
     }
@@ -66,4 +66,17 @@ exports.updateShoe = (patchShoeId, reduceStockValue) => {
                     });
             });
     }
+};
+
+//deletes the requested shoe from the DB, and sets shoe in any related orders to null
+exports.removeShoeById = (delShoeId) => {
+    return connection('shoes')
+        .where('shoe_id', delShoeId)
+        .del()
+        .then((shoe) => {
+            if (shoe === 0) return Promise.reject({
+                status: 404,
+                msg: 'Sorry Pal, Cannot Delete Non Existant Shoe!'
+            });
+        });
 };

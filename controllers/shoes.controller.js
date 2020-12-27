@@ -1,4 +1,4 @@
-const { fetchShoes, insertShoe, fetchShoeById, updateShoe } = require('../models/shoes.models');
+const { fetchShoes, insertShoe, fetchShoeById, updateShoe, removeShoeById } = require('../models/shoes.models');
 
 exports.getShoes = (req, res, next) => {
     const { query: { name } } = req;
@@ -43,6 +43,19 @@ exports.patchShoeById = (req, res, next) => {
     updateShoe(shoe_id, reduce_stock)
         .then(([shoe]) => {
             res.status(200).send({ shoe });
+        })
+        .catch((err) => {
+            next(err);
+        });
+};
+
+exports.deleteShoeById = (req, res, next) => {
+    //gets the shoe if from the request url
+    const { shoe_id } = req.params;
+    // removeShoe call - sends the shoe id to the model so it can be deleted from the DB
+    removeShoeById(shoe_id)
+        .then(() => {
+            res.sendStatus(204)
         })
         .catch((err) => {
             next(err);

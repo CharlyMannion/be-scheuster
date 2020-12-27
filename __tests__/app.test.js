@@ -19,6 +19,7 @@ describe("app", () => {
                 expect(msg).toBe("Oopsie, Path Not Found!");
             });
     });
+
     describe("/api", () => {
         describe("/shoes", () => {
             describe("GET", () => {
@@ -83,6 +84,7 @@ describe("app", () => {
                         });
                 });
             });
+
             describe("POST", () => {
                 it("status 201: responds with 201 for a successfully posted shoe", () => {
                     return request(app)
@@ -146,6 +148,7 @@ describe("app", () => {
                         });
                 });
             });
+
             describe("INVALID METHODS", () => {
                 it("status 405: for invalid methods DELETE, PATCH and PUT", () => {
                     const invalidMethods = ["delete", "patch", "put"];
@@ -254,6 +257,41 @@ describe("app", () => {
                         .expect(400)
                         .then(({ body: { msg } }) => {
                             expect(msg).toBe("No Can Do Pal, Bad Request!");
+                        });
+                });
+            });
+
+            describe('DELETE', () => {
+                it('status 204: returns 204 when delete an shoe', () => {
+                    return request(app).delete('/api/shoes/3').expect(204);
+                });
+                it('status 204: the deleted shoe is no longer in shoes, so get returns a 404', () => {
+                    return request(app)
+                        .delete('/api/shoes/3')
+                        .expect(204)
+                        .then(() => {
+                            return request(app)
+                                .get('/api/shoes/3')
+                                .expect(404)
+                                .then((response) => {
+                                    expect(response.body.msg).toBe('Sorry Pal, Shoe Not Found!');
+                                })
+                        });
+                });
+                it('status 404: NO CONTENT responds with an error message if the shoe you attempt to delete does not exist (path potentially valid but no content)', () => {
+                    return request(app)
+                        .delete('/api/shoes/10000000')
+                        .expect(404)
+                        .then((response) => {
+                            expect(response.body.msg).toBe('Sorry Pal, Cannot Delete Non Existant Shoe!')
+                        });
+                });
+                it('status 400: INVALID PATH responds with an error message if the shoe you attempt to delete with an invalid id e.g. a word', () => {
+                    return request(app)
+                        .delete('/api/shoes/somethingseedy')
+                        .expect(400)
+                        .then((response) => {
+                            expect(response.body.msg).toBe('No Can Do Pal, Bad Request!')
                         });
                 });
             });
