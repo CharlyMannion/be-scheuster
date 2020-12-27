@@ -62,6 +62,22 @@ describe("app", () => {
                             });
                         });
                 });
+                it("status 404: NOT FOUND responds with an error when name of shoe in query does not exist", () => {
+                    return request(app)
+                        .get("/api/shoes/?name=wrong")
+                        .expect(404)
+                        .then((response) => {
+                            expect(response.body.msg).toBe("Sorry Pal, That Query Was Funky. Shoe Not Found!");
+                        });
+                });
+                it("status 404: NOT FOUND responds with an error when number of shoe in query does not exist", () => {
+                    return request(app)
+                        .get("/api/shoes/?nombre=Bovver+Boot")
+                        .expect(404)
+                        .then((response) => {
+                            expect(response.body.msg).toBe("Sorry Pal, That Query Was Funky. Shoe Not Found!");
+                        });
+                });
             });
             describe("INVALID METHODS", () => {
                 it("status 405: for invalid methods DELETE, PATCH and PUT", () => {
