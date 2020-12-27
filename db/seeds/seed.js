@@ -13,5 +13,19 @@ exports.seed = function(knex) {
         })
         .then(() => {
             console.log("LET\'S GET SEEDY!");
+            return knex('shoes')
+                .insert(shoeData)
+                .returning('*')
+        })
+        .then(() => {
+            return knex('users')
+                .insert(userData)
+                .returning('*')
+        })
+        .then(() => {
+            return knex('orders')
+                .insert(orderData)
+                .returning('*')
+                .then(() => {})
         })
 };
