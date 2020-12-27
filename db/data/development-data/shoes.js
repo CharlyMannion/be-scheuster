@@ -1,0 +1,33 @@
+module.exports = [{
+        name: 'Bovver Boot',
+        description: 'Sturdy, Punky Boots',
+        price: 90.00,
+        sizing_info: 'They come up large',
+        stock_number: 100,
+        avatar_url: 'https://www.healthytherapies.com/wp-content/uploads/2016/06/Lime3.jpg',
+    },
+    {
+        name: 'Red Stiletto',
+        description: 'Liptick red with a 6 inch heel and pointy toe',
+        price: 200.00,
+        sizing_info: 'Fit true to size',
+        stock_number: 50,
+        avatar_url: 'https://avatars2.githubusercontent.com/u/24604688?s=460&v=4',
+    },
+    {
+        name: 'White Nike Air Max',
+        description: 'Nike Air Max Trainer in white',
+        price: 150.00,
+        sizing_info: 'Standard Nike Sizing',
+        stock_number: 20,
+        avatar_url: 'https://avatars2.githubusercontent.com/u/24394918?s=400&v=4',
+    },
+    {
+        name: 'Baby Booties',
+        description: 'Adorable Baby Booties with Elf Design',
+        price: 10.00,
+        sizing_info: 'Fit Babies aged 3-6 months',
+        stock_number: 10,
+        avatar_url: 'https://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png',
+    },
+];
