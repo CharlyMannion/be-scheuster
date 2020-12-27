@@ -25,6 +25,15 @@ describe("app", () => {
                 it("status 200: responds with status 200", () => {
                     return request(app).get("/api/shoes").expect(200);
                 });
+                it("status 200: responds with an array", () => {
+                    return request(app)
+                        .get("/api/shoes")
+                        .expect(200)
+                        .then(({ body: { shoes } }) => {
+                            expect(Array.isArray(shoes)).toBe(true);
+                            expect(shoes).toHaveLength(4);
+                        });
+                });
             });
         });
     });

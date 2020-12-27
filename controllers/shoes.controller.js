@@ -1,3 +1,8 @@
+const { fetchShoes } = require('../models/shoes.models');
+
 exports.getShoes = (req, res, next) => {
-    res.status(200).send('sending from controller');
+    fetchShoes()
+        .then((shoes) => {
+            res.status(200).send({ shoes })
+        });
 }
