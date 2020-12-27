@@ -58,7 +58,7 @@ describe("app", () => {
                             expect(Array.isArray(shoes)).toBe(true);
                             expect(shoes.length).toBe(1);
                             shoes.forEach((shoe) => {
-                                expect(shoe.name).toBe('Bovver Boot');
+                                expect(shoe.name).toBe("Bovver Boot");
                             });
                         });
                 });
@@ -67,7 +67,9 @@ describe("app", () => {
                         .get("/api/shoes/?name=wrong")
                         .expect(404)
                         .then((response) => {
-                            expect(response.body.msg).toBe("Sorry Pal, That Query Was Funky. Shoe Not Found!");
+                            expect(response.body.msg).toBe(
+                                "Sorry Pal, That Query Was Funky. Shoe Not Found!"
+                            );
                         });
                 });
                 it("status 404: NOT FOUND responds with an error when number of shoe in query does not exist", () => {
@@ -75,7 +77,9 @@ describe("app", () => {
                         .get("/api/shoes/?nombre=Bovver+Boot")
                         .expect(404)
                         .then((response) => {
-                            expect(response.body.msg).toBe("Sorry Pal, That Query Was Funky. Shoe Not Found!");
+                            expect(response.body.msg).toBe(
+                                "Sorry Pal, That Query Was Funky. Shoe Not Found!"
+                            );
                         });
                 });
             });
@@ -86,8 +90,8 @@ describe("app", () => {
                         .send({
                             name: "Charly's Shoe",
                             description: "December 4, 2020",
-                            price: 100.00,
-                            sizing_info: 'Fits like a dream',
+                            price: 100.0,
+                            sizing_info: "Fits like a dream",
                             stock_number: 2,
                             avatar_url: "https://www.jimmychoo.com/dw/image/v2/BDNT_PRD/on/demandware.static/-/Sites-jch-master-product-catalog/default/dw032f2408/images/original/MISTY120CGF_120011_SIDE.jpg?sw=1800&sh=1800&sm=fit",
                         })
@@ -99,16 +103,16 @@ describe("app", () => {
                         .send({
                             name: "Charly's Shoe",
                             description: "December 4, 2020",
-                            price: 100.00,
-                            sizing_info: 'Fits like a dream',
+                            price: 100.0,
+                            sizing_info: "Fits like a dream",
                             stock_number: 2,
                             avatar_url: "https://www.jimmychoo.com/dw/image/v2/BDNT_PRD/on/demandware.static/-/Sites-jch-master-product-catalog/default/dw032f2408/images/original/MISTY120CGF_120011_SIDE.jpg?sw=1800&sh=1800&sm=fit",
                         })
                         .expect(201)
                         .then(({ body }) => {
                             expect(body.shoe.name).toBe("Charly's Shoe");
-                            expect(body.shoe).toHaveProperty('shoe_id');
-                            expect(body.shoe).toHaveProperty('name');
+                            expect(body.shoe).toHaveProperty("shoe_id");
+                            expect(body.shoe).toHaveProperty("name");
                             expect(body.shoe).toHaveProperty("description");
                             expect(body.shoe).toHaveProperty("price");
                             expect(body.shoe).toHaveProperty("sizing_info");
@@ -197,6 +201,63 @@ describe("app", () => {
                         });
                 });
             });
+
+            describe("PATCH", () => {
+                it("status 200: responds with status 200", () => {
+                    return request(app)
+                        .patch("/api/shoes/1")
+                        .send({ reduce_stock: 1 })
+                        .expect(200);
+                });
+                it("status 200: responds with the specified shoe, with stock reduced by the specified number", () => {
+                    return request(app)
+                        .patch("/api/shoes/1")
+                        .send({ reduce_stock: 1 })
+                        .expect(200)
+                        .then(({ body }) => {
+                            expect(body.shoe.stock_number).toBe(99);
+                        });
+                });
+                it("status 404: NOT FOUND responds with an error message if the requested shoe does not exist", () => {
+                    return request(app)
+                        .patch("/api/shoes/9999")
+                        .send({ reduce_stock: 1 })
+                        .expect(404)
+                        .then((response) => {
+                            expect(response.body.msg).toBe("Sorry Pal, Shoe Not Found!");
+                        });
+                });
+                it("status 400: BAD REQUEST -> responds with an error message if the shoe_id is invalid", () => {
+                    return request(app)
+                        .patch("/api/shoes/notAnId")
+                        .send({ reduce_stock: 1 })
+                        .expect(400)
+                        .then((response) => {
+                            expect(response.body.msg).toBe("No Can Do Pal, Bad Request!");
+                        });
+                });
+                it("status 400: BAD REQUEST -> malformed body/ missing fields responds with an error message", () => {
+                    return request(app)
+                        .patch("/api/shoes/notAnId")
+                        .send({})
+                        .expect(400)
+                        .then(({ body: { msg } }) => {
+                            expect(msg).toBe("No Can Do Pal, Bad Request. Fix Ya Body!");
+                        });
+                });
+                it("status 400: BAD REQUEST -> responds with an error message if request fails schema validation", () => {
+                    return request(app)
+                        .patch("/api/shoes/notAnId")
+                        .send({
+                            reduce_stock: null,
+                        })
+                        .expect(400)
+                        .then(({ body: { msg } }) => {
+                            expect(msg).toBe("No Can Do Pal, Bad Request!");
+                        });
+                });
+            });
+
             describe("INVALID METHODS", () => {
                 it("status 405: for invalid methods POST, DELETE, PATCH and PUT", () => {
                     const invalidMethods = ["post", "put"];

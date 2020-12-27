@@ -39,3 +39,31 @@ exports.fetchShoeById = (sentShoeId) => {
             return shoe;
         });
 };
+
+exports.updateShoe = (patchShoeId, reduceStockValue) => {
+    console.log(reduceStockValue);
+    if (reduceStockValue === undefined) {
+        return Promise.reject({ status: 400, msg: "No Can Do Pal, Bad Request. Fix Ya Body!" });
+    }
+    if (reduceStockValue !== 'undefined' || reduceStockValue) {
+        return connection
+            .select("shoes.*")
+            .from("shoes")
+            .where("shoes.shoe_id", patchShoeId)
+            .decrement("stock_number", reduceStockValue)
+            .then(() => {
+                return connection
+                    .select("shoes.*")
+                    .from("shoes")
+                    .where("shoes.shoe_id", patchShoeId)
+                    .then((shoe) => {
+                        if (shoe.length < 1)
+                            return Promise.reject({
+                                status: 404,
+                                msg: "Sorry Pal, Shoe Not Found!",
+                            });
+                        else return shoe;
+                    });
+            });
+    }
+};

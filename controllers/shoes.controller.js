@@ -1,4 +1,4 @@
-const { fetchShoes, insertShoe, fetchShoeById } = require('../models/shoes.models');
+const { fetchShoes, insertShoe, fetchShoeById, updateShoe } = require('../models/shoes.models');
 
 exports.getShoes = (req, res, next) => {
     const { query: { name } } = req;
@@ -35,3 +35,16 @@ exports.getShoeById = (req, res, next) => {
             next(err);
         })
 };
+
+exports.patchShoeById = (req, res, next) => {
+    const { shoe_id } = req.params;
+    const { reduce_stock } = req.body;
+    // console.log(req.body, "NEW LOC")
+    updateShoe(shoe_id, reduce_stock)
+        .then(([shoe]) => {
+            res.status(200).send({ shoe });
+        })
+        .catch((err) => {
+            next(err);
+        });
+}
