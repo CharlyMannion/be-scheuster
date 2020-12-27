@@ -21,3 +21,7 @@ exports.fetchShoes = (sentName, queryKey) => {
             return shoe;
         });
 }
+
+exports.insertShoe = (shoeBody) => {
+    return connection("shoes").insert(shoeBody).returning("*");
+};

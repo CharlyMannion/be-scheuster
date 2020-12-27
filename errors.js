@@ -6,10 +6,14 @@ exports.handleCustomErrors = (err, req, res, next) => {
 };
 
 exports.handlePsqlErrors = (err, req, res, next) => {
-    const psqlBadRequestCodes = ['42703', '22P02'];
-    if (psqlBadRequestCodes.includes(err.code)) res.status(400).send({ msg: 'No can do, bad request!' });
+    const psqlBadRequestCodes = ["22P02"];
+    const badPostRequestCode = "23502";
+    if (err.code === badPostRequestCode)
+        res.status(400).send({ msg: "No Can Do Pal, Bad Request. Fix Ya Body!" });
+    else if (psqlBadRequestCodes.includes(err.code))
+        res.status(400).send({ msg: "No Can Do Pal, Bad Request!" });
     else next(err);
-};
+};;
 
 // error controllers:
 

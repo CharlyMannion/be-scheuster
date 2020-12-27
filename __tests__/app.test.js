@@ -79,6 +79,69 @@ describe("app", () => {
                         });
                 });
             });
+            describe("POST", () => {
+                it("status 201: responds with 201 for a successfully posted shoe", () => {
+                    return request(app)
+                        .post("/api/shoes")
+                        .send({
+                            name: "Charly's Shoe",
+                            description: "December 4, 2020",
+                            price: 100.00,
+                            sizing_info: 'Fits like a dream',
+                            stock_number: 2,
+                            avatar_url: "https://www.jimmychoo.com/dw/image/v2/BDNT_PRD/on/demandware.static/-/Sites-jch-master-product-catalog/default/dw032f2408/images/original/MISTY120CGF_120011_SIDE.jpg?sw=1800&sh=1800&sm=fit",
+                        })
+                        .expect(201);
+                });
+                it("status 201: responds with the successfully posted shoe", () => {
+                    return request(app)
+                        .post("/api/shoes")
+                        .send({
+                            name: "Charly's Shoe",
+                            description: "December 4, 2020",
+                            price: 100.00,
+                            sizing_info: 'Fits like a dream',
+                            stock_number: 2,
+                            avatar_url: "https://www.jimmychoo.com/dw/image/v2/BDNT_PRD/on/demandware.static/-/Sites-jch-master-product-catalog/default/dw032f2408/images/original/MISTY120CGF_120011_SIDE.jpg?sw=1800&sh=1800&sm=fit",
+                        })
+                        .expect(201)
+                        .then(({ body }) => {
+                            expect(body.shoe.name).toBe("Charly's Shoe");
+                            expect(body.shoe).toHaveProperty('shoe_id');
+                            expect(body.shoe).toHaveProperty('name');
+                            expect(body.shoe).toHaveProperty("description");
+                            expect(body.shoe).toHaveProperty("price");
+                            expect(body.shoe).toHaveProperty("sizing_info");
+                            expect(body.shoe).toHaveProperty("stock_number");
+                            expect(body.shoe).toHaveProperty("avatar_url");
+                        });
+                });
+                it("status 400: BAD REQUEST -> malformed body/ missing fields responds with an error message", () => {
+                    return request(app)
+                        .post("/api/shoes")
+                        .send({})
+                        .expect(400)
+                        .then(({ body: { msg } }) => {
+                            expect(msg).toBe("No Can Do Pal, Bad Request. Fix Ya Body!");
+                        });
+                });
+                it("status 400: BAD REQUEST -> responds with an error message if request fails schema validation", () => {
+                    return request(app)
+                        .post("/api/shoes")
+                        .send({
+                            name: null,
+                            description: null,
+                            price: null,
+                            sizing_info: null,
+                            stock_number: null,
+                            avatar_url: null,
+                        })
+                        .expect(400)
+                        .then(({ body: { msg } }) => {
+                            expect(msg).toBe("No Can Do Pal, Bad Request. Fix Ya Body!");
+                        });
+                });
+            });
             describe("INVALID METHODS", () => {
                 it("status 405: for invalid methods DELETE, PATCH and PUT", () => {
                     const invalidMethods = ["delete", "patch", "put"];

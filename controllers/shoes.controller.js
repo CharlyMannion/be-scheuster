@@ -1,4 +1,4 @@
-const { fetchShoes } = require('../models/shoes.models');
+const { fetchShoes, insertShoe } = require('../models/shoes.models');
 
 exports.getShoes = (req, res, next) => {
     const { query: { name } } = req;
@@ -12,3 +12,15 @@ exports.getShoes = (req, res, next) => {
             next(err);
         })
 }
+
+exports.postShoe = (req, res, next) => {
+    const { name, description, price, sizing_info, stock_number, avatar_url } = req.body;
+    const newShoe = { name: name, description: description, price: price, sizing_info: sizing_info, stock_number: stock_number, avatar_url: avatar_url };
+    insertShoe(newShoe)
+        .then(([shoe]) => {
+            res.status(201).send({ shoe });
+        })
+        .catch((err) => {
+            next(err);
+        })
+};
