@@ -34,6 +34,22 @@ describe("app", () => {
                             expect(shoes).toHaveLength(4);
                         });
                 });
+                it("status 200: responds with the correct keys", () => {
+                    return request(app)
+                        .get("/api/shoes")
+                        .expect(200)
+                        .then(({ body: { shoes } }) => {
+                            shoes.forEach((shoe) => {
+                                expect(shoe).toHaveProperty("name");
+                                expect(shoe).toHaveProperty("description");
+                                expect(shoe).toHaveProperty("price");
+                                expect(shoe).toHaveProperty("sizing_info");
+                                expect(shoe).toHaveProperty("shoe_id");
+                                expect(shoe).toHaveProperty("stock_number");
+                                expect(shoe).toHaveProperty("avatar_url");
+                            });
+                        });
+                });
             });
         });
     });
