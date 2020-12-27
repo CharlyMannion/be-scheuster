@@ -51,3 +51,50 @@ My database will be PSQL, and you will interact with it using [Knex](https://kne
 
 I will complete setup and seeding phase of this project, then build the server up! 
 
+
+## Possible Endpoints
+
+```
+GET /api
+
+GET /api/shoes
+
+GET /api/shoes/?name=Bovver+Boot
+
+POST /api/shoes
+
+
+GET /api/shoes/:shoe_id
+
+PATCH /api/shoes/:shoe_id -> .send {reduce_stock: 1}
+
+DELETE /api/shoes/:shoe_id
+
+
+GET /api/users
+
+GET /api/users/?name=Arthur
+
+GET /api/users/?username=Atty
+
+POST /api/users
+
+
+GET /api/users/:user_id
+
+PATCH /api/users/:user_id .send {username: newName}
+
+DELETE /api/users/:user_id
+
+
+GET /api/orders -> accepts queries sort_by which sorts by any valid column (defaults to order_date)
+
+GET /api/orders/?username=Atty
+
+POST /api/orders
+
+
+GET /api/orders/:user_id
+
+PATCH /api/orders/:user_id .send {shipped_date: "2017-12-10T12:56:33.798Z", returned_date: "2017-12-10T12:56:33.798Z", refund_date: "2017-12-10T12:56:33.798Z"}
+```
