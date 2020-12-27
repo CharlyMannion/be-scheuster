@@ -1,6 +1,6 @@
 module.exports = [{
         shoe: 'Bovver Boot',
-        user: 'Sturdy, Punky Boots',
+        username: 'Atty',
         price: 90.00,
         order_date: "2017-11-10T12:56:33.798Z",
         shipped_date: "2017-12-10T12:56:33.798Z",
@@ -9,7 +9,7 @@ module.exports = [{
     },
     {
         shoe: 'Red Stiletto',
-        user: 'Liptick red with a 6 inch heel and pointy toe',
+        username: 'Atty',
         price: 200.00,
         order_date: "2017-11-10T12:56:33.798Z",
         shipped_date: "2017-12-10T12:56:33.798Z",
@@ -18,7 +18,7 @@ module.exports = [{
     },
     {
         shoe: 'White Nike Air Max',
-        user: 'Nike Air Max Trainer in white',
+        username: 'Atty',
         price: 150.00,
         order_date: "2017-11-10T12:56:33.798Z",
         shipped_date: "2017-12-10T12:56:33.798Z",
@@ -27,7 +27,7 @@ module.exports = [{
     },
     {
         shoe: 'Baby Booties',
-        user: 'Adorable Baby Booties with Elf Design',
+        username: 'Atty',
         price: 10.00,
         order_date: "2017-11-10T12:56:33.798Z",
         shipped_date: "2017-12-10T12:56:33.798Z",
