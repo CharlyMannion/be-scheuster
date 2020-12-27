@@ -28,6 +28,16 @@ code .
 npm i
 ```
 
+## Setting up the Database
+```
+npm run setup-dbs
+```
+
+## Seeding the Data
+```
+npm run seed
+```
+
 ## Running Tests
 ```
 npm run test-app
