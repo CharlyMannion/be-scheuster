@@ -157,5 +157,60 @@ describe("app", () => {
                 });
             });
         });
+
+        describe("/shoes/:shoe_id", () => {
+            describe("GET", () => {
+                it("status 200: responds with status 200 when an shoe id is given", () => {
+                    return request(app).get("/api/shoes/1").expect(200);
+                });
+                it("status 200: responds with an array containing an shoe when an shoe id is given", () => {
+                    return request(app)
+                        .get("/api/shoes/1")
+                        .expect(200)
+                        .then(({ body: { shoes } }) => {
+                            shoes.forEach((shoe) => {
+                                expect(shoe.name).toBe("Bovver Boot");
+                                // expect(shoe).toHaveProperty("name");
+                                expect(shoe).toHaveProperty("description");
+                                expect(shoe).toHaveProperty("price");
+                                expect(shoe).toHaveProperty("sizing_info");
+                                expect(shoe).toHaveProperty("shoe_id");
+                                expect(shoe).toHaveProperty("stock_number");
+                                expect(shoe).toHaveProperty("avatar_url");
+                            });
+                        });
+                });
+                it("status 404: NOT FOUND -> responds with an error message if the requested shoe does not exist", () => {
+                    return request(app)
+                        .get("/api/shoes/999")
+                        .expect(404)
+                        .then((response) => {
+                            expect(response.body.msg).toBe("Sorry Pal, Shoe Not Found!");
+                        });
+                });
+                it("status 400: BAD REQUEST -> responds with an error message if the shoe_id is invalid", () => {
+                    return request(app)
+                        .get("/api/shoes/notAnId")
+                        .expect(400)
+                        .then((response) => {
+                            expect(response.body.msg).toBe("No Can Do Pal, Bad Request!");
+                        });
+                });
+            });
+            describe("INVALID METHODS", () => {
+                it("status 405: for invalid methods POST, DELETE, PATCH and PUT", () => {
+                    const invalidMethods = ["post", "put"];
+
+                    const promises = invalidMethods.map((method) => {
+                        return request(app)[method]("/api/shoes/1")
+                            .expect(405)
+                            .then(({ body: { msg } }) => {
+                                expect(msg).toBe("Nah Pal, Method Not Allowed!");
+                            });
+                    });
+                    return Promise.all(promises);
+                });
+            });
+        });
     });
 });

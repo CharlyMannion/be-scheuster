@@ -3,7 +3,6 @@ const { checkValid } = require('../db/utils/modelUtils');
 
 exports.fetchShoes = (sentName, queryKey) => {
     const validKeys = ['name'];
-    console.log(sentName, "SENT NAME")
     return connection
         .select('shoes.*')
         .from('shoes')
@@ -24,4 +23,19 @@ exports.fetchShoes = (sentName, queryKey) => {
 
 exports.insertShoe = (shoeBody) => {
     return connection("shoes").insert(shoeBody).returning("*");
+};
+
+exports.fetchShoeById = (sentShoeId) => {
+    return connection
+        .select("shoes.*")
+        .from("shoes")
+        .where("shoes.shoe_id", sentShoeId)
+        .then((shoe) => {
+            if (shoe.length < 1)
+                return Promise.reject({
+                    status: 404,
+                    msg: "Sorry Pal, Shoe Not Found!",
+                });
+            return shoe;
+        });
 };

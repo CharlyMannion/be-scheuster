@@ -1,4 +1,4 @@
-const { fetchShoes, insertShoe } = require('../models/shoes.models');
+const { fetchShoes, insertShoe, fetchShoeById } = require('../models/shoes.models');
 
 exports.getShoes = (req, res, next) => {
     const { query: { name } } = req;
@@ -19,6 +19,17 @@ exports.postShoe = (req, res, next) => {
     insertShoe(newShoe)
         .then(([shoe]) => {
             res.status(201).send({ shoe });
+        })
+        .catch((err) => {
+            next(err);
+        })
+};
+
+exports.getShoeById = (req, res, next) => {
+    const { shoe_id } = req.params;
+    fetchShoeById(shoe_id)
+        .then((shoes) => {
+            res.status(200).send({ shoes })
         })
         .catch((err) => {
             next(err);
