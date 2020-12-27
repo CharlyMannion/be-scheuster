@@ -19,13 +19,13 @@ describe("app", () => {
                 expect(msg).toBe("Oopsie, Path Not Found!");
             });
     });
-    // describe("/api", () => {
-    //     describe("/shoes", () => {
-    //         describe("GET", () => {
-    //             it("status 200: responds with status 200", () => {
-    //                 return request(app).get("/api/shoes").expect(200);
-    //             });
-    //         });
-    //     });
-    // });
+    describe("/api", () => {
+        describe("/shoes", () => {
+            describe("GET", () => {
+                it("status 200: responds with status 200", () => {
+                    return request(app).get("/api/shoes").expect(200);
+                });
+            });
+        });
+    });
 });
