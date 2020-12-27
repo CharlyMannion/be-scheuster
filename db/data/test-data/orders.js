@@ -27,7 +27,7 @@ module.exports = [{
     },
     {
         shoe: 'Baby Booties',
-        username: 'Atty',
+        username: 'Weeny',
         price: 10.00,
         order_date: "2017-11-10T12:56:33.798Z",
         shipped_date: "2017-12-10T12:56:33.798Z",
