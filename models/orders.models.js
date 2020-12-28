@@ -26,6 +26,7 @@ exports.fetchOrders = (sentUsername, sentShoe, queryKey) => {
 };
 
 exports.insertOrder = (orderBody) => {
+    // forces a 400 error by setting an undefined price to null when POST request body is malformed
     if (orderBody.price === undefined) orderBody.price = null;
     return connection("orders").insert(orderBody).returning("*")
 };
