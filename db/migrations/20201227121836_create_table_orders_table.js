@@ -4,7 +4,7 @@ exports.up = function(knex) {
         ordersTable.increments('order_id').primary();
         ordersTable.string('shoe').references('shoes.name').onDelete('SET NULL');
         ordersTable.string('username').references('users.username').onDelete('SET NULL');
-        ordersTable.integer('price').defaultTo(0);
+        ordersTable.integer('price').defaultTo(0).notNullable();
         ordersTable.timestamp('order_date').notNullable().defaultTo(knex.fn.now());
         ordersTable.timestamp('shipped_date');
         ordersTable.timestamp('returned_date');

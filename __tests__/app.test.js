@@ -726,6 +726,76 @@ describe("app", () => {
                         });
                 });
             });
+
+            describe("POST", () => {
+                it("status 201: responds with 201 for a successfully posted order", () => {
+                    return request(app)
+                        .post("/api/orders")
+                        .send({
+                            shoe: "Red Stiletto",
+                            username: "Atty",
+                            price: 50.00
+                        })
+                        .expect(201);
+                });
+                it("status 201: responds with the successfully posted order", () => {
+                    return request(app)
+                        .post("/api/orders")
+                        .send({
+                            shoe: "Red Stiletto",
+                            username: "Atty",
+                            price: 50.00
+                        })
+                        .expect(201)
+                        .then(({ body }) => {
+                            expect(body.order.shoe).toBe("Red Stiletto");
+                            expect(body.order.username).toBe("Atty");
+                            expect(body.order.price).toBe(50.00);
+                            expect(body.order).toHaveProperty("order_id");
+                            expect(body.order).toHaveProperty("order_date");
+                            expect(body.order).toHaveProperty("shipped_date");
+                            expect(body.order).toHaveProperty("returned_date");
+                            expect(body.order).toHaveProperty("refund_date");
+                        });
+                });
+                it("status 400: BAD REQUEST -> malformed body/ missing fields responds with an error message", () => {
+                    return request(app)
+                        .post("/api/orders")
+                        .send({})
+                        .expect(400)
+                        .then(({ body: { msg } }) => {
+                            expect(msg).toBe("No Can Do Pal, Bad Request. Fix Ya Body!");
+                        });
+                });
+                it("status 400: BAD REQUEST -> responds with an error message if request fails schema validation", () => {
+                    return request(app)
+                        .post("/api/orders")
+                        .send({
+                            shoe: null,
+                            username: null,
+                            price: null,
+                        })
+                        .expect(400)
+                        .then(({ body: { msg } }) => {
+                            expect(msg).toBe("No Can Do Pal, Bad Request. Fix Ya Body!");
+                        });
+                });
+            });
+
+            describe("INVALID METHODS", () => {
+                it("status 405: for invalid methods DELETE, PATCH and PUT", () => {
+                    const invalidMethods = ["delete", "patch", "put"];
+
+                    const promises = invalidMethods.map((method) => {
+                        return request(app)[method]("/api/orders")
+                            .expect(405)
+                            .then(({ body: { msg } }) => {
+                                expect(msg).toBe("Nah Pal, Method Not Allowed!");
+                            });
+                    });
+                    return Promise.all(promises);
+                });
+            });
         });
     });
 });

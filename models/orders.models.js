@@ -1,20 +1,20 @@
-const connection = require("../db/connection")
-const { checkValid } = require('../db/utils/modelUtils');
+const connection = require("../db/connection");
+const { checkValid } = require("../db/utils/modelUtils");
 
 exports.fetchOrders = (sentUsername, sentShoe, queryKey) => {
-    const validKeys = ['username', 'shoe'];
+    const validKeys = ["username", "shoe"];
     return connection
-        .select('orders.*')
-        .from('orders')
+        .select("orders.*")
+        .from("orders")
         .modify(function(knex) {
             if (sentUsername) {
-                knex.where('orders.username', sentUsername)
+                knex.where("orders.username", sentUsername);
             }
             if (sentShoe) {
-                knex.where('orders.shoe', sentShoe)
+                knex.where("orders.shoe", sentShoe);
             }
         })
-        .orderBy('order_date', 'desc')
+        .orderBy("order_date", "desc")
         .then((order) => {
             if (order.length < 1 || checkValid(validKeys, queryKey) === false)
                 return Promise.reject({
@@ -23,4 +23,9 @@ exports.fetchOrders = (sentUsername, sentShoe, queryKey) => {
                 });
             return order;
         });
+};
+
+exports.insertOrder = (orderBody) => {
+    if (orderBody.price === undefined) orderBody.price = null;
+    return connection("orders").insert(orderBody).returning("*")
 };
