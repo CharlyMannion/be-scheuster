@@ -1,4 +1,4 @@
-const { fetchUsers, insertUser, fetchUserById } = require('../models/users.models');
+const { fetchUsers, insertUser, fetchUserById, updateUser } = require('../models/users.models');
 // const { fetchUsers, insertUser, fetchUserById, updateUser, removeUserById } = require('../models/users.models');
 
 exports.getUsers = (req, res, next) => {
@@ -35,4 +35,16 @@ exports.getUserById = (req, res, next) => {
         .catch((err) => {
             next(err);
         })
+};
+
+exports.patchUserById = (req, res, next) => {
+    const { user_id } = req.params;
+    const { email } = req.body;
+    updateUser(user_id, email)
+        .then(([user]) => {
+            res.status(200).send({ user });
+        })
+        .catch((err) => {
+            next(err);
+        });
 };

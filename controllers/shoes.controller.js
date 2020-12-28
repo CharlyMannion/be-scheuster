@@ -39,7 +39,6 @@ exports.getShoeById = (req, res, next) => {
 exports.patchShoeById = (req, res, next) => {
     const { shoe_id } = req.params;
     const { reduce_stock } = req.body;
-    // console.log(req.body, "NEW LOC")
     updateShoe(shoe_id, reduce_stock)
         .then(([shoe]) => {
             res.status(200).send({ shoe });

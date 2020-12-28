@@ -45,3 +45,30 @@ exports.fetchUserById = (sentUserId) => {
             return user;
         });
 };
+
+exports.updateUser = (patchUserId, newEmail) => {
+    if (newEmail === undefined) {
+        return Promise.reject({ status: 400, msg: "No Can Do Pal, Bad Request. Fix Ya Body!" });
+    }
+    if (newEmail !== 'undefined' || newEmail) {
+        return connection
+            .select("users.*")
+            .from("users")
+            .where("users.user_id", patchUserId)
+            .update("email", newEmail)
+            .then(() => {
+                return connection
+                    .select("users.*")
+                    .from("users")
+                    .where("users.user_id", patchUserId)
+                    .then((user) => {
+                        if (user.length < 1)
+                            return Promise.reject({
+                                status: 404,
+                                msg: "Sorry Pal, User Not Found!",
+                            });
+                        else return user;
+                    });
+            });
+    }
+};

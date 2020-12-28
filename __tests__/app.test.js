@@ -485,7 +485,6 @@ describe("app", () => {
                     return Promise.all(promises);
                 });
             });
-
         });
 
         describe("/users/:user_id", () => {
@@ -523,6 +522,63 @@ describe("app", () => {
                         });
                 });
             });
+
+            describe("PATCH", () => {
+                it("status 200: responds with status 200", () => {
+                    return request(app)
+                        .patch("/api/users/1")
+                        .send({ email: "antichrist" })
+                        .expect(200);
+                });
+                it("status 200: responds with the specified user, with stock reduced by the specified number", () => {
+                    return request(app)
+                        .patch("/api/users/1")
+                        .send({ email: "antichrist" })
+                        .expect(200)
+                        .then(({ body }) => {
+                            expect(body.user.email).toBe("antichrist");
+                        });
+                });
+                it("status 404: NOT FOUND responds with an error message if the requested user does not exist", () => {
+                    return request(app)
+                        .patch("/api/users/9999")
+                        .send({ email: "antichrist" })
+                        .expect(404)
+                        .then((response) => {
+                            expect(response.body.msg).toBe("Sorry Pal, User Not Found!");
+                        });
+                });
+                it("status 400: BAD REQUEST -> responds with an error message if the user_id is invalid", () => {
+                    return request(app)
+                        .patch("/api/users/notAnId")
+                        .send({ email: "antichrist" })
+                        .expect(400)
+                        .then((response) => {
+                            expect(response.body.msg).toBe("No Can Do Pal, Bad Request!");
+                        });
+                });
+                it("status 400: BAD REQUEST -> malformed body/ missing fields responds with an error message", () => {
+                    return request(app)
+                        .patch("/api/users/notAnId")
+                        .send({})
+                        .expect(400)
+                        .then(({ body: { msg } }) => {
+                            expect(msg).toBe("No Can Do Pal, Bad Request. Fix Ya Body!");
+                        });
+                });
+                it("status 400: BAD REQUEST -> responds with an error message if request fails schema validation", () => {
+                    return request(app)
+                        .patch("/api/users/notAnId")
+                        .send({
+                            email: null,
+                        })
+                        .expect(400)
+                        .then(({ body: { msg } }) => {
+                            expect(msg).toBe("No Can Do Pal, Bad Request!");
+                        });
+                });
+            });
+
         });
     });
 });
