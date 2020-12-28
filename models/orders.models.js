@@ -14,6 +14,7 @@ exports.fetchOrders = (sentUsername, sentShoe, queryKey) => {
                 knex.where('orders.shoe', sentShoe)
             }
         })
+        .orderBy('order_date', 'desc')
         .then((order) => {
             if (order.length < 1 || checkValid(validKeys, queryKey) === false)
                 return Promise.reject({

@@ -686,6 +686,15 @@ describe("app", () => {
                             });
                         });
                 });
+                it("status 200: sorts orders by order_date in descending order", () => {
+                    return request(app)
+                        .get("/api/orders/")
+                        .expect(200)
+                        .then(({ body: { orders } }) => {
+                            expect(Array.isArray(orders)).toBe(true);
+                            expect(orders).toBeSortedBy('order_date', { descending: true });
+                        });
+                });
                 it("status 404: NOT FOUND responds with an error when username of order in query does not exist", () => {
                     return request(app)
                         .get("/api/orders/?username=wrong")
