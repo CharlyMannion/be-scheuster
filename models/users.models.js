@@ -25,4 +25,8 @@ exports.fetchUsers = (sentName, sentUsername, sentEmail, queryKey) => {
                 });
             return user;
         });
-}
+};
+
+exports.insertUser = (userBody) => {
+    return connection("users").insert(userBody).returning("*");
+};

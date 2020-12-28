@@ -417,6 +417,61 @@ describe("app", () => {
                         });
                 });
             });
+
+            describe("POST", () => {
+                it("status 201: responds with 201 for a successfully posted user", () => {
+                    return request(app)
+                        .post("/api/users")
+                        .send({
+                            name: "Charly",
+                            username: "Tottie",
+                            email: 'charly@gmail.com',
+                            avatar_url: "https://media-exp1.licdn.com/dms/image/C4D03AQEkMlQVLdC-NQ/profile-displayphoto-shrink_200_200/0/1594117894380?e=1614816000&v=beta&t=Y7sRVSg_SKN05eGu9vxNiqrmeklst3GYPk0YxSptvuA",
+                        })
+                        .expect(201);
+                });
+                it("status 201: responds with the successfully posted user", () => {
+                    return request(app)
+                        .post("/api/users")
+                        .send({
+                            name: "Charly",
+                            username: "Tottie",
+                            email: 'charly@gmail.com',
+                            avatar_url: "https://media-exp1.licdn.com/dms/image/C4D03AQEkMlQVLdC-NQ/profile-displayphoto-shrink_200_200/0/1594117894380?e=1614816000&v=beta&t=Y7sRVSg_SKN05eGu9vxNiqrmeklst3GYPk0YxSptvuA",
+                        })
+                        .expect(201)
+                        .then(({ body }) => {
+                            expect(body.user.name).toBe("Charly");
+                            expect(body.user.username).toBe("Tottie");
+                            expect(body.user.email).toBe("charly@gmail.com");
+                            expect(body.user).toHaveProperty("avatar_url");
+                        });
+                });
+                it("status 400: BAD REQUEST -> malformed body/ missing fields responds with an error message", () => {
+                    return request(app)
+                        .post("/api/users")
+                        .send({})
+                        .expect(400)
+                        .then(({ body: { msg } }) => {
+                            expect(msg).toBe("No Can Do Pal, Bad Request. Fix Ya Body!");
+                        });
+                });
+                it("status 400: BAD REQUEST -> responds with an error message if request fails schema validation", () => {
+                    return request(app)
+                        .post("/api/users")
+                        .send({
+                            name: null,
+                            username: null,
+                            email: null,
+                            avatar_url: null,
+                        })
+                        .expect(400)
+                        .then(({ body: { msg } }) => {
+                            expect(msg).toBe("No Can Do Pal, Bad Request. Fix Ya Body!");
+                        });
+                });
+            });
+
         });
     });
 });
