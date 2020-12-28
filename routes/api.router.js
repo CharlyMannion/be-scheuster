@@ -1,9 +1,11 @@
 const apiRouter = require('express').Router();
 const shoesRouter = require('./shoes.router');
 const userRouter = require('./users.router');
+const orderRouter = require('./orders.router');
 
 apiRouter.use('/shoes', shoesRouter);
 apiRouter.use('/users', userRouter);
+apiRouter.use('/orders', orderRouter);
 
 apiRouter.get('/', (req, res) => {
     res.json({

@@ -630,5 +630,93 @@ describe("app", () => {
             });
 
         });
+
+        describe("/orders", () => {
+            describe("GET", () => {
+                it("status 200: responds with status 200", () => {
+                    return request(app).get("/api/orders").expect(200);
+                });
+                it("status 200: responds with an array", () => {
+                    return request(app)
+                        .get("/api/orders")
+                        .expect(200)
+                        .then(({ body: { orders } }) => {
+                            expect(Array.isArray(orders)).toBe(true);
+                            expect(orders).toHaveLength(4);
+                        });
+                });
+                it("status 200: responds with the correct keys", () => {
+                    return request(app)
+                        .get("/api/orders")
+                        .expect(200)
+                        .then(({ body: { orders } }) => {
+                            orders.forEach((order) => {
+                                expect(order).toHaveProperty("order_id");
+                                expect(order).toHaveProperty("shoe");
+                                expect(order).toHaveProperty("username");
+                                expect(order).toHaveProperty("price");
+                                expect(order).toHaveProperty("order_date");
+                                expect(order).toHaveProperty("shipped_date");
+                                expect(order).toHaveProperty("returned_date");
+                                expect(order).toHaveProperty("refund_date");
+                            });
+                        });
+                });
+                it("status 200: responds with an array of orders matching the username of the order specified in the request query", () => {
+                    return request(app)
+                        .get("/api/orders/?username=Atty")
+                        .expect(200)
+                        .then(({ body: { orders } }) => {
+                            expect(Array.isArray(orders)).toBe(true);
+                            expect(orders.length).toBe(3);
+                            orders.forEach((order) => {
+                                expect(order.username).toBe("Atty");
+                            });
+                        });
+                });
+                it("status 200: responds with an array of orders matching the shoe of the order specified in the request query", () => {
+                    return request(app)
+                        .get("/api/orders/?shoe=Bovver+Boot")
+                        .expect(200)
+                        .then(({ body: { orders } }) => {
+                            expect(Array.isArray(orders)).toBe(true);
+                            expect(orders.length).toBe(1);
+                            orders.forEach((order) => {
+                                expect(order.shoe).toBe("Bovver Boot");
+                            });
+                        });
+                });
+                it("status 404: NOT FOUND responds with an error when username of order in query does not exist", () => {
+                    return request(app)
+                        .get("/api/orders/?username=wrong")
+                        .expect(404)
+                        .then((response) => {
+                            expect(response.body.msg).toBe(
+                                "Sorry Pal, That Query Was Funky. Order Not Found!"
+                            );
+                        });
+                });
+                it("status 404: NOT FOUND responds with an error when shoe of order in query does not exist", () => {
+                    return request(app)
+                        .get("/api/orders/?shoe=wrong")
+                        .expect(404)
+                        .then((response) => {
+                            expect(response.body.msg).toBe(
+                                "Sorry Pal, That Query Was Funky. Order Not Found!"
+                            );
+                        });
+                });
+                it("status 404: NOT FOUND responds with an error when number of order in query does not exist", () => {
+                    return request(app)
+                        .get("/api/orders/?nombre=Bovver+Boot")
+                        .expect(404)
+                        .then((response) => {
+                            expect(response.body.msg).toBe(
+                                "Sorry Pal, That Query Was Funky. Order Not Found!"
+                            );
+                        });
+                });
+            });
+        });
     });
 });
