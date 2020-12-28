@@ -77,6 +77,8 @@ GET /api/users/?name=Arthur
 
 GET /api/users/?username=Atty
 
+GET /api/users/?email=arthur@gmail.com
+
 POST /api/users
 
 
@@ -87,9 +89,11 @@ PATCH /api/users/:user_id .send {username: newName}
 DELETE /api/users/:user_id
 
 
-GET /api/orders -> accepts queries sort_by which sorts by any valid column (defaults to order_date)
+GET /api/orders (default sorts orders by order_date in descending order)
 
 GET /api/orders/?username=Atty
+
+GET /api/orders/?shoe=Bovver+Boot
 
 POST /api/orders
 
