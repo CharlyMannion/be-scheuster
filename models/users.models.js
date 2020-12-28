@@ -72,3 +72,16 @@ exports.updateUser = (patchUserId, newEmail) => {
             });
     }
 };
+
+//deletes the requested user from the DB, and sets user in any related orders to null
+exports.removeUserById = (delUserId) => {
+    return connection('users')
+        .where('user_id', delUserId)
+        .del()
+        .then((user) => {
+            if (user === 0) return Promise.reject({
+                status: 404,
+                msg: 'Sorry Pal, Cannot Delete Non Existant User!'
+            });
+        });
+};

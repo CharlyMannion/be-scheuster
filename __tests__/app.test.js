@@ -579,6 +579,56 @@ describe("app", () => {
                 });
             });
 
+            describe('DELETE', () => {
+                it('status 204: returns 204 when delete a user', () => {
+                    return request(app).delete('/api/users/3').expect(204);
+                });
+                it('status 204: the deleted user is no longer in users, so get returns a 404', () => {
+                    return request(app)
+                        .delete('/api/users/3')
+                        .expect(204)
+                        .then(() => {
+                            return request(app)
+                                .get('/api/users/3')
+                                .expect(404)
+                                .then((response) => {
+                                    expect(response.body.msg).toBe('Sorry Pal, User Not Found!');
+                                })
+                        });
+                });
+                it('status 404: NO CONTENT responds with an error message if the user you attempt to delete does not exist (path potentially valid but no content)', () => {
+                    return request(app)
+                        .delete('/api/users/999999')
+                        .expect(404)
+                        .then((response) => {
+                            expect(response.body.msg).toBe('Sorry Pal, Cannot Delete Non Existant User!')
+                        });
+                });
+                it('status 400: INVALID PATH responds with an error message if the user you attempt to delete with an invalid id e.g. a word', () => {
+                    return request(app)
+                        .delete('/api/users/notAnId')
+                        .expect(400)
+                        .then((response) => {
+                            expect(response.body.msg).toBe('No Can Do Pal, Bad Request!')
+                        });
+                });
+            });
+
+            describe("INVALID METHODS", () => {
+                it("status 405: for invalid methods POST, DELETE, PATCH and PUT", () => {
+                    const invalidMethods = ["post", "put"];
+
+                    const promises = invalidMethods.map((method) => {
+                        return request(app)[method]("/api/users/1")
+                            .expect(405)
+                            .then(({ body: { msg } }) => {
+                                expect(msg).toBe("Nah Pal, Method Not Allowed!");
+                            });
+                    });
+                    return Promise.all(promises);
+                });
+            });
+
         });
     });
 });

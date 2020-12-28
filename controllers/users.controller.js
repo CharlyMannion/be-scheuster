@@ -1,5 +1,4 @@
-const { fetchUsers, insertUser, fetchUserById, updateUser } = require('../models/users.models');
-// const { fetchUsers, insertUser, fetchUserById, updateUser, removeUserById } = require('../models/users.models');
+const { fetchUsers, insertUser, fetchUserById, updateUser, removeUserById } = require('../models/users.models');
 
 exports.getUsers = (req, res, next) => {
     const { query: { name, username, email } } = req;
@@ -48,3 +47,16 @@ exports.patchUserById = (req, res, next) => {
             next(err);
         });
 };
+
+exports.deleteUserById = (req, res, next) => {
+    //gets the user if from the request url
+    const { user_id } = req.params;
+    // removeuser call - sends the user id to the model so it can be deleted from the DB
+    removeUserById(user_id)
+        .then(() => {
+            res.sendStatus(204)
+        })
+        .catch((err) => {
+            next(err);
+        });
+}
