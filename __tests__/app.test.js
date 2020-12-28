@@ -311,5 +311,112 @@ describe("app", () => {
                 });
             });
         });
+
+        describe("/users", () => {
+            describe("GET", () => {
+                it("status 200: responds with status 200", () => {
+                    return request(app).get("/api/users").expect(200);
+                });
+                it("status 200: responds with an array", () => {
+                    return request(app)
+                        .get("/api/users")
+                        .expect(200)
+                        .then(({ body: { users } }) => {
+                            expect(Array.isArray(users)).toBe(true);
+                            expect(users).toHaveLength(4);
+                        });
+                });
+                it("status 200: responds with the correct keys", () => {
+                    return request(app)
+                        .get("/api/users")
+                        .expect(200)
+                        .then(({ body: { users } }) => {
+                            users.forEach((user) => {
+                                expect(user).toHaveProperty("name");
+                                expect(user).toHaveProperty("username");
+                                expect(user).toHaveProperty("email");
+                                expect(user).toHaveProperty("user_id");
+                                expect(user).toHaveProperty("avatar_url");
+                            });
+                        });
+                });
+                it("status 200: responds with an array of users matching the name of the user specified in the request query", () => {
+                    return request(app)
+                        .get("/api/users/?name=Arthur")
+                        .expect(200)
+                        .then(({ body: { users } }) => {
+                            expect(Array.isArray(users)).toBe(true);
+                            expect(users.length).toBe(1);
+                            users.forEach((user) => {
+                                expect(user.name).toBe("Arthur");
+                            });
+                        });
+                });
+                it("status 200: responds with an array of users matching the username of the user specified in the request query", () => {
+                    return request(app)
+                        .get("/api/users/?username=Atty")
+                        .expect(200)
+                        .then(({ body: { users } }) => {
+                            expect(Array.isArray(users)).toBe(true);
+                            expect(users.length).toBe(1);
+                            users.forEach((user) => {
+                                expect(user.username).toBe("Atty");
+                            });
+                        });
+                });
+                it("status 200: responds with an array of users matching the email of the user specified in the request query", () => {
+                    return request(app)
+                        .get("/api/users/?email=attyralphmannion@gmail")
+                        .expect(200)
+                        .then(({ body: { users } }) => {
+                            expect(Array.isArray(users)).toBe(true);
+                            expect(users.length).toBe(1);
+                            users.forEach((user) => {
+                                expect(user.email).toBe("attyralphmannion@gmail");
+                            });
+                        });
+                });
+                it("status 404: NOT FOUND responds with an error when name of user in query does not exist", () => {
+                    return request(app)
+                        .get("/api/users/?name=wrong")
+                        .expect(404)
+                        .then((response) => {
+                            expect(response.body.msg).toBe(
+                                "Sorry Pal, That Query Was Funky. User Not Found!"
+                            );
+                        });
+                });
+                it("status 404: NOT FOUND responds with an error when username of user in query does not exist", () => {
+                    return request(app)
+                        .get("/api/users/?username=wrong")
+                        .expect(404)
+                        .then((response) => {
+                            expect(response.body.msg).toBe(
+                                "Sorry Pal, That Query Was Funky. User Not Found!"
+                            );
+                        });
+                });
+                it("status 404: NOT FOUND responds with an error when email of user in query does not exist", () => {
+                    return request(app)
+                        .get("/api/users/?email=wrong")
+                        .expect(404)
+                        .then((response) => {
+                            expect(response.body.msg).toBe(
+                                "Sorry Pal, That Query Was Funky. User Not Found!"
+                            );
+                        });
+                });
+                it("status 404: NOT FOUND responds with an error when number of user in query does not exist", () => {
+                    return request(app)
+                        .get("/api/users/?nombre=Bovver+Boot")
+                        .expect(404)
+                        .then((response) => {
+                            expect(response.body.msg).toBe(
+                                "Sorry Pal, That Query Was Funky. User Not Found!"
+                            );
+                        });
+                });
+            });
+        });
     });
 });
