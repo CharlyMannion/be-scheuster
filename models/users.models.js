@@ -30,3 +30,18 @@ exports.fetchUsers = (sentName, sentUsername, sentEmail, queryKey) => {
 exports.insertUser = (userBody) => {
     return connection("users").insert(userBody).returning("*");
 };
+
+exports.fetchUserById = (sentUserId) => {
+    return connection
+        .select("users.*")
+        .from("users")
+        .where("users.user_id", sentUserId)
+        .then((user) => {
+            if (user.length < 1)
+                return Promise.reject({
+                    status: 404,
+                    msg: "Sorry Pal, User Not Found!",
+                });
+            return user;
+        });
+};

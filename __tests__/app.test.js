@@ -177,7 +177,6 @@ describe("app", () => {
                         .then(({ body: { shoes } }) => {
                             shoes.forEach((shoe) => {
                                 expect(shoe.name).toBe("Bovver Boot");
-                                // expect(shoe).toHaveProperty("name");
                                 expect(shoe).toHaveProperty("description");
                                 expect(shoe).toHaveProperty("price");
                                 expect(shoe).toHaveProperty("sizing_info");
@@ -487,6 +486,43 @@ describe("app", () => {
                 });
             });
 
+        });
+
+        describe("/users/:user_id", () => {
+            describe("GET", () => {
+                it("status 200: responds with status 200 when an user id is given", () => {
+                    return request(app).get("/api/users/1").expect(200);
+                });
+                it("status 200: responds with an array containing an user when an user id is given", () => {
+                    return request(app)
+                        .get("/api/users/1")
+                        .expect(200)
+                        .then(({ body: { users } }) => {
+                            users.forEach((user) => {
+                                expect(user.name).toBe("Arthur");
+                                expect(user).toHaveProperty("username");
+                                expect(user).toHaveProperty("email");
+                                expect(user).toHaveProperty("avatar_url");
+                            });
+                        });
+                });
+                it("status 404: NOT FOUND -> responds with an error message if the requested user does not exist", () => {
+                    return request(app)
+                        .get("/api/users/999")
+                        .expect(404)
+                        .then((response) => {
+                            expect(response.body.msg).toBe("Sorry Pal, User Not Found!");
+                        });
+                });
+                it("status 400: BAD REQUEST -> responds with an error message if the user_id is invalid", () => {
+                    return request(app)
+                        .get("/api/users/notAnId")
+                        .expect(400)
+                        .then((response) => {
+                            expect(response.body.msg).toBe("No Can Do Pal, Bad Request!");
+                        });
+                });
+            });
         });
     });
 });

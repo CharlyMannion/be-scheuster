@@ -41,7 +41,6 @@ exports.fetchShoeById = (sentShoeId) => {
 };
 
 exports.updateShoe = (patchShoeId, reduceStockValue) => {
-    // console.log(reduceStockValue);
     if (reduceStockValue === undefined) {
         return Promise.reject({ status: 400, msg: "No Can Do Pal, Bad Request. Fix Ya Body!" });
     }
