@@ -48,6 +48,12 @@ describe("app", () => {
                                 expect(shoe).toHaveProperty("shoe_id");
                                 expect(shoe).toHaveProperty("stock_number");
                                 expect(shoe).toHaveProperty("avatar_url");
+                                expect(shoe).toHaveProperty("category");
+                                expect(shoe).toHaveProperty("style");
+                                expect(shoe).toHaveProperty("material");
+                                expect(shoe).toHaveProperty("size");
+                                expect(shoe).toHaveProperty("colour_group");
+                                expect(shoe).toHaveProperty("heel_height");
                             });
                         });
                 });
@@ -60,6 +66,78 @@ describe("app", () => {
                             expect(shoes.length).toBe(1);
                             shoes.forEach((shoe) => {
                                 expect(shoe.name).toBe("Bovver Boot");
+                            });
+                        });
+                });
+                it("status 200: responds with an array of shoes matching the category of the shoe specified in the request query", () => {
+                    return request(app)
+                        .get("/api/shoes/?category=women")
+                        .expect(200)
+                        .then(({ body: { shoes } }) => {
+                            expect(Array.isArray(shoes)).toBe(true);
+                            expect(shoes.length).toBe(2);
+                            shoes.forEach((shoe) => {
+                                expect(shoe.category).toBe("women");
+                            });
+                        });
+                });
+                it("status 200: responds with an array of shoes matching the style of the shoe specified in the request query", () => {
+                    return request(app)
+                        .get("/api/shoes/?style=Courts")
+                        .expect(200)
+                        .then(({ body: { shoes } }) => {
+                            expect(Array.isArray(shoes)).toBe(true);
+                            expect(shoes.length).toBe(1);
+                            shoes.forEach((shoe) => {
+                                expect(shoe.style).toBe("Courts");
+                            });
+                        });
+                });
+                it("status 200: responds with an array of shoes matching the material of the shoe specified in the request query", () => {
+                    return request(app)
+                        .get("/api/shoes/?material=leather")
+                        .expect(200)
+                        .then(({ body: { shoes } }) => {
+                            expect(Array.isArray(shoes)).toBe(true);
+                            expect(shoes.length).toBe(3);
+                            shoes.forEach((shoe) => {
+                                expect(shoe.material).toBe("leather");
+                            });
+                        });
+                });
+                it("status 200: responds with an array of shoes matching the size of the shoe specified in the request query", () => {
+                    return request(app)
+                        .get("/api/shoes/?size=4")
+                        .expect(200)
+                        .then(({ body: { shoes } }) => {
+                            expect(Array.isArray(shoes)).toBe(true);
+                            expect(shoes.length).toBe(1);
+                            shoes.forEach((shoe) => {
+                                expect(shoe.size).toBe(4);
+                            });
+                        });
+                });
+                it("status 200: responds with an array of shoes matching the colour_group of the shoe specified in the request query", () => {
+                    return request(app)
+                        .get("/api/shoes/?colour_group=black")
+                        .expect(200)
+                        .then(({ body: { shoes } }) => {
+                            expect(Array.isArray(shoes)).toBe(true);
+                            expect(shoes.length).toBe(1);
+                            shoes.forEach((shoe) => {
+                                expect(shoe.colour_group).toBe("black");
+                            });
+                        });
+                });
+                it("status 200: responds with an array of shoes matching the heel_height of the shoe specified in the request query", () => {
+                    return request(app)
+                        .get("/api/shoes/?heel_height=flats")
+                        .expect(200)
+                        .then(({ body: { shoes } }) => {
+                            expect(Array.isArray(shoes)).toBe(true);
+                            expect(shoes.length).toBe(3);
+                            shoes.forEach((shoe) => {
+                                expect(shoe.heel_height).toBe("flats");
                             });
                         });
                 });
@@ -95,6 +173,12 @@ describe("app", () => {
                             price: 100.0,
                             sizing_info: "Fits like a dream",
                             stock_number: 2,
+                            category: "women",
+                            style: "chelsea boot",
+                            material: "vegan leather",
+                            size: 5,
+                            colour_group: 'black',
+                            heel_height: 'flats',
                             avatar_url: "https://www.jimmychoo.com/dw/image/v2/BDNT_PRD/on/demandware.static/-/Sites-jch-master-product-catalog/default/dw032f2408/images/original/MISTY120CGF_120011_SIDE.jpg?sw=1800&sh=1800&sm=fit",
                         })
                         .expect(201);
@@ -108,6 +192,12 @@ describe("app", () => {
                             price: 100.0,
                             sizing_info: "Fits like a dream",
                             stock_number: 2,
+                            category: "women",
+                            style: "chelsea boot",
+                            material: "vegan leather",
+                            size: 5,
+                            colour_group: 'black',
+                            heel_height: 'flats',
                             avatar_url: "https://www.jimmychoo.com/dw/image/v2/BDNT_PRD/on/demandware.static/-/Sites-jch-master-product-catalog/default/dw032f2408/images/original/MISTY120CGF_120011_SIDE.jpg?sw=1800&sh=1800&sm=fit",
                         })
                         .expect(201)
@@ -119,6 +209,12 @@ describe("app", () => {
                             expect(body.shoe).toHaveProperty("price");
                             expect(body.shoe).toHaveProperty("sizing_info");
                             expect(body.shoe).toHaveProperty("stock_number");
+                            expect(body.shoe).toHaveProperty("category");
+                            expect(body.shoe).toHaveProperty("style");
+                            expect(body.shoe).toHaveProperty("material");
+                            expect(body.shoe).toHaveProperty("size");
+                            expect(body.shoe).toHaveProperty("colour_group");
+                            expect(body.shoe).toHaveProperty("heel_height");
                             expect(body.shoe).toHaveProperty("avatar_url");
                         });
                 });
@@ -183,6 +279,12 @@ describe("app", () => {
                                 expect(shoe).toHaveProperty("shoe_id");
                                 expect(shoe).toHaveProperty("stock_number");
                                 expect(shoe).toHaveProperty("avatar_url");
+                                expect(shoe).toHaveProperty("category");
+                                expect(shoe).toHaveProperty("style");
+                                expect(shoe).toHaveProperty("material");
+                                expect(shoe).toHaveProperty("size");
+                                expect(shoe).toHaveProperty("colour_group");
+                                expect(shoe).toHaveProperty("heel_height");
                             });
                         });
                 });

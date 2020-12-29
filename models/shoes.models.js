@@ -1,14 +1,32 @@
 const connection = require("../db/connection")
 const { checkValid } = require('../db/utils/modelUtils');
 
-exports.fetchShoes = (sentName, queryKey) => {
-    const validKeys = ['name'];
+exports.fetchShoes = (sentName, sentCategory, sentStyle, sentMaterial, sentSize, sentColourGroup, sentHeelHeight, queryKey) => {
+    const validKeys = ['name', 'category', 'style', 'material', 'size', 'colour_group', 'heel_height'];
     return connection
         .select('shoes.*')
         .from('shoes')
         .modify(function(knex) {
             if (sentName) {
                 knex.where('shoes.name', sentName)
+            }
+            if (sentCategory) {
+                knex.where('shoes.category', sentCategory)
+            }
+            if (sentStyle) {
+                knex.where('shoes.style', sentStyle)
+            }
+            if (sentMaterial) {
+                knex.where('shoes.material', sentMaterial)
+            }
+            if (sentSize) {
+                knex.where('shoes.size', sentSize)
+            }
+            if (sentColourGroup) {
+                knex.where('shoes.colour_group', sentColourGroup)
+            }
+            if (sentHeelHeight) {
+                knex.where('shoes.heel_height', sentHeelHeight)
             }
         })
         .then((shoe) => {
