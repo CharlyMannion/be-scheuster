@@ -17,7 +17,7 @@ git clone git@github.com:CharlyMannion/be-scheuster.git
 ```
 * Go into the project directory:
 ```
-cd final_project
+cd be-scheuster
 ```
 * Open the app in your favourite text editor to view the code (We like VSCode):
 ```
