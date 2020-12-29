@@ -1,6 +1,6 @@
 # Scheuster - API
 
-View the website [here](https://scheuster.netlify.app/)
+View the website [here](https://goldenshoe.netlify.app/)
 
 Find the hosted back end [here](https://be-scheuster.herokuapp.com/api)
 
