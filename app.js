@@ -1,7 +1,10 @@
 const express = require('express');
 const app = express();
+const cors = require('cors');
 const apiRouter = require('./routes/api.router');
 const { handleInvalidPath, handleCustomErrors, handlePsqlErrors, handleServerErrors } = require('./errors');
+
+app.use(cors())
 
 //essential in order to use the req.body and req.params in the controllers
 app.use(express.json());
