@@ -1,6 +1,6 @@
 module.exports = [{
         name: 'Bovver Boot',
-        description: 'Sturdy, Punky Boots',
+        description: 'A casual lace-up boot. It boasts an understated, rustic look. The cork frame of the outer sole makes for an authentic design. The upper is made from soft, grained natural leather.',
         category: 'women',
         style: 'Chelsea Boots',
         material: 'leather',
@@ -14,7 +14,7 @@ module.exports = [{
     },
     {
         name: 'Red Stiletto',
-        description: 'Liptick red with a 6 inch heel and pointy toe',
+        description: "The red shade of Christian Louboutin's signature Pigalle Follies pumps perfectly matches the iconic lacquered soles. This pair has been made in Italy from croc-effect leather and has gently curved sides to make your legs look longer. Style them with everything from dresses to jeans.",
         category: 'women',
         style: 'Courts',
         material: 'leather',
@@ -28,7 +28,7 @@ module.exports = [{
     },
     {
         name: 'White Nike Air Max',
-        description: 'Nike Air Max Trainer in white',
+        description: 'The Nike Air Max 90 stays true to its OG running roots with its iconic Waffle outsole, stitched overlays and classic, colour-accented TPU plates. Retro colours celebrate the first generation while Max Air cushioning adds comfort to your journey.',
         category: 'men',
         style: 'Sneakers',
         material: 'leather',
@@ -42,7 +42,7 @@ module.exports = [{
     },
     {
         name: 'Baby Booties',
-        description: 'Adorable Baby Booties with Elf Design',
+        description: 'Adorable Baby Booties with Fox Design',
         category: 'children',
         style: 'Baby',
         material: 'cotton',
