@@ -10,7 +10,7 @@ module.exports = [{
         price: 90.00,
         sizing_info: 'They come up large',
         stock_number: 100,
-        avatar_url: 'https://www.healthytherapies.com/wp-content/uploads/2016/06/Lime3.jpg',
+        avatar_url: 'https://www.russellandbromley.co.uk/ccstore/v1/images/?source=/file/v8097278570931558567/products/373276_xlarge.jpg&height=545&width=545',
     },
     {
         name: 'Red Stiletto',
@@ -24,7 +24,7 @@ module.exports = [{
         price: 200.00,
         sizing_info: 'Fit true to size',
         stock_number: 50,
-        avatar_url: 'https://avatars2.githubusercontent.com/u/24604688?s=460&v=4',
+        avatar_url: 'https://www.jimmychoo.com/dw/image/v2/BDNT_PRD/on/demandware.static/-/Sites-jch-master-product-catalog/default/dwea0f18e3/images/original/247anoukpat_red_side.jpg?sw=1800&sh=1800&sm=fit',
     },
     {
         name: 'White Nike Air Max',
@@ -38,7 +38,7 @@ module.exports = [{
         price: 150.00,
         sizing_info: 'Standard Nike Sizing',
         stock_number: 20,
-        avatar_url: 'https://avatars2.githubusercontent.com/u/24394918?s=400&v=4',
+        avatar_url: 'https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,b_rgb:f5f5f5/5eba52fd-1cc7-48db-8ce2-fd530331cbb8/force-1-younger-shoe-vXJB1w.jpg',
     },
     {
         name: 'Baby Booties',
@@ -52,6 +52,6 @@ module.exports = [{
         price: 10.00,
         sizing_info: 'Fit Babies aged 3-6 months',
         stock_number: 10,
-        avatar_url: 'https://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png',
+        avatar_url: 'https://www.jojomamanbebe.co.uk/media/catalog/product/cache/963be570cce4976bbe1ce61cf069b9c3/r/u/ruse1702.jpg',
     },
 ];

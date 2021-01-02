@@ -13,7 +13,7 @@ exports.up = function(knex) {
         shoesTable.integer('price').defaultTo(0);
         shoesTable.text('sizing_info').notNullable();
         shoesTable.integer('stock_number').defaultTo(0);
-        shoesTable.string('avatar_url').notNullable();
+        shoesTable.text('avatar_url').notNullable();
     });
 };
 
